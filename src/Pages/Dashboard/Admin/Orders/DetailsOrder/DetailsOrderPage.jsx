@@ -309,13 +309,13 @@ const DetailsOrderPage = () => {
                                                                                            <div className="sm:w-full lg:w-6/12 flex items-center justify-center gap-2">
                                                                                                   <Link
                                                                                                          to={`/dashboard/orders/details/${Number(orderNumPath) - 1}`}
-                                                                                                         className='w-6/12 text-center text-xl text-white bg-mainColor border-2 border-mainColor px-4 py-1 rounded-lg transition-all ease-in-out duration-300  hover:bg-white hover:text-mainColor'
+                                                                                                         className='w-6/12 text-center text-md text-white bg-mainColor border-2 border-mainColor px-1 py-1 rounded-lg transition-all ease-in-out duration-300  hover:bg-white hover:text-mainColor'
                                                                                                   >
                                                                                                          {'<<'} Prev Order
                                                                                                   </Link>
                                                                                                   <Link
                                                                                                          to={`/dashboard/orders/details/${Number(orderNumPath) + 1}`}
-                                                                                                         className='w-6/12 text-center text-xl text-white bg-mainColor border-2 border-mainColor px-4 py-1 rounded-lg transition-all ease-in-out duration-300  hover:bg-white hover:text-mainColor'
+                                                                                                         className='w-6/12 text-center text-md text-white bg-mainColor border-2 border-mainColor px-1 py-1 rounded-lg transition-all ease-in-out duration-300  hover:bg-white hover:text-mainColor'
                                                                                                   >
                                                                                                          Next Order {'>>'}
                                                                                                   </Link>
@@ -579,7 +579,7 @@ const DetailsOrderPage = () => {
     </h2>
 
     {/* Table wrapped in a horizontal scroll container */}
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto ">
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gradient-to-r from-[#9E090F] to-[#D1191C] text-white">
           <tr>

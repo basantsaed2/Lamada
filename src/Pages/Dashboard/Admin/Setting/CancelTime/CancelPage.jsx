@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useGet } from '../../../../../Hooks/useGet';
 import { usePost } from '../../../../../Hooks/usePostJson';
-import { LoaderLogin, SubmitButton, TextInput } from '../../../../../Components/Components';
+import { LoaderLogin, SubmitButton, TextInput, TimeInput } from '../../../../../Components/Components';
 
 const CancelTimePage = () => {
        const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -56,7 +56,7 @@ const CancelTimePage = () => {
                                                  {/* Tax Types */}
                                                  <div className="sm:w-full lg:w-[30%] flex flex-col items-start justify-center gap-y-1">
                                                         <span className="text-xl font-TextFontRegular text-thirdColor">Time:</span>
-                                                        <TextInput
+                                                        <TimeInput
                                                                value={cancelTime}
                                                                onChange={(e) => setCancelTime(e.target.value)}
                                                                placeholder={'Cancel Time'}
