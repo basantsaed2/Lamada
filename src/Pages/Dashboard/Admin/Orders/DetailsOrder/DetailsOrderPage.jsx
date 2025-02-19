@@ -860,7 +860,11 @@ const DetailsOrderPage = () => {
                                                  {detailsData.order_status === "canceled" && (
                                                  <div className="mt-4 p-2 border-2 rounded-2xl bg-gray-100 text-gray-800">
                                                  {/* <span className="font-TextFontSemiBold">Cancellation Details:</span> */}
-
+                                                 {detailsData.admin_cancel_reason ? (
+                                                 <p className="text-lg">
+                                                        <strong>Rejection Admin Reason:</strong> {detailsData.admin_cancel_reason}
+                                                 </p>
+                                                 ) : null}
                                                  {detailsData.customer_cancel_reason ? (
                                                  <p className="text-lg">
                                                         <strong>Rejection Customer Reason:</strong> {detailsData.customer_cancel_reason}
@@ -869,6 +873,7 @@ const DetailsOrderPage = () => {
 
                                                  {/* If all reasons are missing, show "No reason provided" */}
                                                  {!detailsData.customer_cancel_reason &&
+                                                        !detailsData.admin_cancel_reason &&
                                                         <p className="mt-2 text-lg text-gray-600">No reason provided</p>
                                                  }
                                                  </div>
