@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { useGet } from '../../../../../Hooks/useGet';
-import { DropDown, LoaderLogin, SearchBar, TextInput } from '../../../../../Components/Components';
+import { DropDown, LoaderLogin, SearchBar, SubmitButton, TextInput } from '../../../../../Components/Components';
 import { FaClock, FaUser } from 'react-icons/fa';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { usePost } from '../../../../../Hooks/usePostJson';
@@ -25,6 +25,8 @@ const DetailsOrderPage = () => {
        const [deliveries, setDeliveries] = useState([])
        const [deliveriesFilter, setDeliveriesFilter] = useState([])
 
+       const [showReason ,setShowReason] = useState(false)
+       const [cancelReason ,setCancelReason] = useState('')
 
        const [isOpenOrderStatus, setIsOpenOrderStatus] = useState(false)
 
@@ -168,17 +170,28 @@ const DetailsOrderPage = () => {
 
        const handleSelectOrderStatus = (option) => {
               if (!option) return;
+              console.log("orderst",option.name)
 
               // setOrderStatusName(option.name);
 
               // Call handleChangeStaus with appropriate arguments
 
-              // if (option.name === 'processing') {
-              //        handleOpenOrderNumber(detailsData.id)
-              // } else {
-              setOrderStatusName(option.name);
-              handleChangeStaus(detailsData.id, '', option.name);
-              // }
+              // // if (option.name === 'processing') {
+              // //        handleOpenOrderNumber(detailsData.id)
+              // // } else {
+              // setOrderStatusName(option.name);
+              // handleChangeStaus(detailsData.id, '', option.name);
+              // // }
+
+              if (option.name === 'canceled') {
+                     setShowReason(true)
+                     setOrderStatusName(option.name);
+              } else {
+                     setShowReason(false);
+                     setOrderStatusName(option.name);
+                     handleChangeStaus(detailsData.id, '', option.name,'');
+              }
+
        };
 
        const handleOrderNumber = (id) => {
@@ -187,24 +200,26 @@ const DetailsOrderPage = () => {
                      return;
               }
 
-              handleChangeStaus(id, orderNumber, 'processing');
+              handleChangeStaus(id, orderNumber, 'processing','');
               setOpenOrderNumber(null);
        };
 
        // Move handleChangeStaus outside the function
-       const handleChangeStaus = async (orderId, orderNumber, orderStatus) => {
+       const handleChangeStaus = async (orderId, orderNumber, orderStatus ,reason) => {
               try {
                      const responseStatus = await changeState(
                             `${apiUrl}/admin/order/status/${orderId}`,
                             `Changed Status Successes.`,
                             {
                                    order_status: orderStatus,
-                                   order_number: orderNumber
+                                   order_number: orderNumber,
+                                   ...(orderStatus === "canceled" && { admin_cancel_reason: reason }), // Send reason if canceled
                             }
                      );
 
                      if (responseStatus) {
                             refetchDetailsOrder(); // Refetch the order details after successful status change
+                            setShowReason(false)
                      }
               } catch (error) {
                      console.error('Error changing status:', error);
@@ -288,10 +303,10 @@ const DetailsOrderPage = () => {
                                    </div>
                             ) : (
 
-                            <div className="w-full flex sm:flex-col lg:flex-row items-start justify-between gap-5 mb-24">
+                            <div className="w-full flex sm:flex-col lg:flex-row items-start justify-between gap-3 mb-24">
                                    {/* Left Section */}
                                    <div className="sm:w-full lg:w-8/12">
-                                          <div className="w-full bg-white rounded-xl shadow-md p-4 ">
+                                          <div className="w-full bg-white rounded-xl shadow-md p-2 ">
 
                                                  {detailsData.length === 0 ? (
                                                         <div>
@@ -300,22 +315,22 @@ const DetailsOrderPage = () => {
                                                  ) : (
                                                         <div className="w-full">
                                                                {/* Header */}
-                                                               <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 shadow rounded-lg">
+                                                               <div className="w-full px-2 md:px-4 lg:px-4 py-4 shadow rounded-lg">
                                                                       {/* Header */}
-                                                                      <div className="flex flex-col justify-between items-start border-b border-gray-300 pb-4 mb-4">
+                                                                      <div className="flex flex-col justify-between items-start border-b border-gray-300 pb-2">
                                                                              <div className="w-full">
                                                                                     <div className="w-full flex flex-wrap items-center justify-between">
                                                                                            <h1 className="text-2xl font-TextFontMedium text-gray-800">Order <span className='text-mainColor'>#{detailsData?.order_number || ''}</span></h1>
                                                                                            <div className="sm:w-full lg:w-6/12 flex items-center justify-center gap-2">
                                                                                                   <Link
                                                                                                          to={`/dashboard/orders/details/${Number(orderNumPath) - 1}`}
-                                                                                                         className='w-6/12 text-center text-md text-white bg-mainColor border-2 border-mainColor px-1 py-1 rounded-lg transition-all ease-in-out duration-300  hover:bg-white hover:text-mainColor'
+                                                                                                         className='w-6/12 text-center text-sm md:text-md text-white bg-mainColor border-2 border-mainColor px-1 py-1 rounded-lg transition-all ease-in-out duration-300  hover:bg-white hover:text-mainColor'
                                                                                                   >
                                                                                                          {'<<'} Prev Order
                                                                                                   </Link>
                                                                                                   <Link
                                                                                                          to={`/dashboard/orders/details/${Number(orderNumPath) + 1}`}
-                                                                                                         className='w-6/12 text-center text-md text-white bg-mainColor border-2 border-mainColor px-1 py-1 rounded-lg transition-all ease-in-out duration-300  hover:bg-white hover:text-mainColor'
+                                                                                                         className='w-6/12 text-center text-sm md:text-md text-white bg-mainColor border-2 border-mainColor px-1 py-1 rounded-lg transition-all ease-in-out duration-300  hover:bg-white hover:text-mainColor'
                                                                                                   >
                                                                                                          Next Order {'>>'}
                                                                                                   </Link>
@@ -333,27 +348,27 @@ const DetailsOrderPage = () => {
 
                                                                       {/* Order Information */}
                                                                       <div className="w-full flex sm:flex-col xl:flex-row justify-center items-start gap-4">
-                                                                             <div className="sm:w-full xl:w-6/12   bg-white p-4 shadow-md rounded-md">
-                                                                                    <p className="text-xl text-gray-800">
+                                                                             <div className="sm:w-full xl:w-6/12  bg-white p-2 shadow-md rounded-md">
+                                                                                    <p className="text-md text-gray-800">
                                                                                            <span className="font-TextFontSemiBold text-mainColor">Status:</span> {detailsData?.order_status || ''}
                                                                                     </p>
-                                                                                    <p className="text-xl text-gray-800 mt-2">
+                                                                                    <p className="text-md text-gray-800">
                                                                                            <span className="font-TextFontSemiBold text-mainColor">Payment Method:</span> {detailsData?.payment_method?.name || ''}
                                                                                     </p>
-                                                                                    <p className="text-xl text-gray-800 mt-2">
+                                                                                    <p className="text-md text-gray-800">
                                                                                            <span className="font-TextFontSemiBold text-mainColor">Payment Status:</span> {detailsData?.status_payment || ''}
                                                                                            <span className="text-green-600 font-TextFontSemiBold ml-1">{detailsData?.payment_status || ''}</span>
                                                                                     </p>
                                                                              </div>
-                                                                             <div className="sm:w-full xl:w-6/12   bg-white p-4 shadow-md rounded-md">
-                                                                                    <p className="text-xl text-gray-800">
+                                                                             <div className="sm:w-full xl:w-6/12   bg-white p-2 shadow-md rounded-md">
+                                                                                    <p className="text-md text-gray-800">
                                                                                            <span className="font-TextFontSemiBold text-mainColor">Order Type:</span> {detailsData?.order_type || ''}
                                                                                     </p>
-                                                                                    <p className="text-xl text-gray-800 mt-2">
+                                                                                    <p className="text-md text-gray-800">
                                                                                            <span className="font-TextFontSemiBold text-mainColor">Order Note:</span> {detailsData?.notes || "No Notes"}
                                                                                     </p>
                                                                                     {detailsData?.payment_method?.id !== 2 && (
-                                                                                           <p className="text-xl text-gray-800 mt-2">
+                                                                                           <p className="text-md text-gray-800">
                                                                                                   <span className="font-TextFontSemiBold text-mainColor">Order Recipt:</span>
                                                                                                   {detailsData?.receipt ? (
                                                                                                          <>
@@ -571,10 +586,10 @@ const DetailsOrderPage = () => {
 {(detailsData?.order_details || []).map((order, orderIndex) => (
   <div
     key={`order-${orderIndex}`}
-    className="bg-white shadow-lg rounded-lg p-6 my-6 border border-gray-200"
+    className="bg-white shadow-lg rounded-lg p-2 my-3 border border-gray-200"
   >
     {/* Order Header */}
-    <h2 className="text-2xl font-bold text-gray-800 mb-4">
+    <h2 className="text-2xl font-bold text-gray-800 mb-2">
       Order #{orderIndex + 1}
     </h2>
 
@@ -583,19 +598,19 @@ const DetailsOrderPage = () => {
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gradient-to-r from-[#9E090F] to-[#D1191C] text-white">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider border-gray-300">
+            <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider border-gray-300">
               Products
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider border-gray-300">
+            <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider border-gray-300">
               Addons
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider border-gray-300">
+            <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider border-gray-300">
               Excludes
             </th>
             {/* <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider border-gray-300">
               Extras
             </th> */}
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+            <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">
               Variations
             </th>
           </tr>
@@ -603,7 +618,7 @@ const DetailsOrderPage = () => {
         <tbody className="bg-white divide-y divide-gray-200">
           <tr className="hover:bg-gray-50">
             {/* Products Column: Name, Price, and Quantity */}
-            <td className="px-4 py-2 whitespace-normal border-r border-gray-300">
+            <td className="px-2 py-1 whitespace-normal border-r border-gray-300">
               {order.product.map((prod, prodIndex) => (
                 <div key={`prod-${prodIndex}`} className="mb-3">
                   <div className="font-semibold text-gray-800">
@@ -620,7 +635,7 @@ const DetailsOrderPage = () => {
             </td>
 
             {/* Addons Column: Just Name */}
-            <td className="px-4 py-2 whitespace-normal border-r border-gray-300">
+            <td className="px-2 py-1 whitespace-normal border-r border-gray-300">
               {order.addons && order.addons.length > 0 ? (
                 order.addons.map((addon, addonIndex) => (
                   <div key={`addon-${addonIndex}`} className="mb-3">
@@ -638,7 +653,7 @@ const DetailsOrderPage = () => {
             </td>
 
             {/* Excludes Column: Just Name */}
-            <td className="px-4 py-2 whitespace-normal border-r border-gray-300">
+            <td className="px-2 py-1 whitespace-normal border-r border-gray-300">
               {order.excludes && order.excludes.length > 0 ? (
                 order.excludes.map((exclude, excludeIndex) => (
                   <div key={`exclude-${excludeIndex}`} className="mb-3">
@@ -668,7 +683,7 @@ const DetailsOrderPage = () => {
             </td> */}
 
             {/* Variations Column: Name and Type */}
-            <td className="px-4 py-2 whitespace-normal">
+            <td className="px-2 py-1 whitespace-normal">
               {order.variations && order.variations.length > 0 ? (
                 order.variations.map((variation, varIndex) => (
                   <div key={`variation-${varIndex}`} className="mb-3">
@@ -693,7 +708,7 @@ const DetailsOrderPage = () => {
 
 
                                                                {/* Order Summary */}
-                                                               <div className="my-4 flex flex-col gap-y-1">
+                                                               <div className="my-2 flex flex-col gap-y-1 p-2">
                                                                       <p className='w-full flex items-center justify-between'>
                                                                              {(detailsData?.order_details || []).forEach((orderDetail) => {
                                                                                     // Sum extras prices
@@ -822,13 +837,53 @@ const DetailsOrderPage = () => {
                                                         )}
 
                                                  </div>
+
+                                                 {showReason && (
                                                  <div className="mt-4">
+                                                        <label className="block text-gray-700 text-sm font-medium">Enter Cancel Reason:</label>
+                                                        <input
+                                                        type="text"
+                                                        value={cancelReason}
+                                                        onChange={(e) => setCancelReason(e.target.value)}
+                                                        placeholder="Enter reason"
+                                                        className="w-full border-2 rounded-2xl outline-none px-2 py-2 shadow text-2xl text-thirdColor"
+                                                        />
+                                                        <button
+                                                        onClick={() => handleChangeStaus(detailsData.id, "", "canceled", cancelReason)}
+                                                        className="mt-2 px-4 py-3 rounded-md bg-mainColor text-white text-sm"
+                                                        >
+                                                        Confirm Cancellation
+                                                        </button>
+                                                 </div>
+                                                 )}
+
+                                                 {detailsData.order_status === "canceled" && (
+                                                 <div className="mt-4 p-2 border-2 rounded-2xl bg-gray-100 text-gray-800">
+                                                 {/* <span className="font-TextFontSemiBold">Cancellation Details:</span> */}
+
+                                                 {detailsData.customer_cancel_reason ? (
+                                                 <p className="text-lg">
+                                                        <strong>Rejection Customer Reason:</strong> {detailsData.customer_cancel_reason}
+                                                 </p>
+                                                 ) : null}
+
+                                                 {/* If all reasons are missing, show "No reason provided" */}
+                                                 {!detailsData.customer_cancel_reason &&
+                                                        <p className="mt-2 text-lg text-gray-600">No reason provided</p>
+                                                 }
+                                                 </div>
+                                                 )}
+
+
+                                                 <div className="mt-2">
                                                         <label className="text-sm">Delivery Date & Time</label>
                                                         <div className="flex gap-2 mt-2">
                                                                <input type="date" className="w-1/2 p-2 border rounded-md" value={detailsData.order_date} readOnly />
                                                                <input type="time" className="w-1/2 p-2 border rounded-md" value={detailsData.date} readOnly />
                                                         </div>
                                                  </div>
+
+                                                 
                                                  {detailsData.order_type === 'delivery' && (detailsData.order_status === 'processing' || detailsData.order_status === 'out_for_delivery') && (
                                                         <button className="w-full bg-mainColor text-white py-2 rounded-md mt-4"
                                                                onClick={() => handleOpenDeliviers(detailsData.id)}>
@@ -945,12 +1000,12 @@ const DetailsOrderPage = () => {
                                                                <span>currentMinute: {initialTime?.currentMinute}</span> */}
                                                         </div>
                                                  )
-                                          }
+                                          }                                         
 
 
                                           {detailsData.delivery_id !== null && (
 
-                                                 <div className="w-full bg-white rounded-xl shadow-md p-4 mt-4">
+                                                 <div className="w-full bg-white rounded-xl shadow-md p-4 mt-2">
                                                         <div className="flex items-center gap-x-2 text-lg font-TextFontSemiBold"><span><FaUser className='text-mainColor' /></span>Delivery Man</div>
                                                         <p className="text-sm">Name: {detailsData?.delivery?.f_name || '-'} {detailsData?.delivery?.l_name || '-'}</p>
                                                         <p className="text-sm">Orders: {detailsData?.delivery?.count_orders || '-'}</p>
@@ -963,7 +1018,7 @@ const DetailsOrderPage = () => {
 
                                           {/* Delivery Information */}
                                           {detailsData.order_type === 'delivery' && (
-                                                 <div className="w-full bg-white rounded-xl shadow-md p-4 mt-4">
+                                                 <div className="w-full bg-white rounded-xl shadow-md p-4 mt-2">
                                                         <div className="flex items-center gap-x-2 text-lg font-TextFontSemiBold"><span><FaUser className='text-mainColor' /></span>Delivery Information</div>
                                                         <p className="text-sm">Name: {detailsData?.user?.f_name || '-'} {detailsData?.user?.l_name || '-'}</p>
                                                         <p className="text-sm">Contact: {detailsData?.user?.phone || '-'}</p>
@@ -996,7 +1051,7 @@ const DetailsOrderPage = () => {
                                                  </div>
                                           )}
 
-                                          <div className="w-full bg-white rounded-xl shadow-md p-4 mt-4">
+                                          <div className="w-full bg-white rounded-xl shadow-md p-4 mt-2">
                                                  <div className="flex items-center gap-x-2 text-lg font-TextFontSemiBold"><span><FaUser className='text-mainColor' /></span>Customer Information</div>
                                                  <p className="text-sm">Name: {detailsData?.user?.f_name || '-'} {detailsData?.user?.l_name || '-'}</p>
                                                  <p className="text-sm">Orders: {detailsData?.user?.count_orders || '-'}</p>
@@ -1005,7 +1060,7 @@ const DetailsOrderPage = () => {
                                           </div>
 
                                           {/* Branch Information */}
-                                          <div className="w-full bg-white rounded-xl shadow-md p-4 mt-4">
+                                          <div className="w-full bg-white rounded-xl shadow-md p-4 mt-2">
                                                  <h3 className="text-lg font-TextFontSemiBold">Branch Information</h3>
                                                  <p className="text-sm">Branch: {detailsData?.branch?.address || '-'}</p>
                                                  <p className="text-sm">Orders Served: {detailsData?.branch?.count_orders || '-'}</p>
