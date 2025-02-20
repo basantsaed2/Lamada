@@ -320,7 +320,7 @@ const DetailsOrderPage = () => {
                                                                       <div className="flex flex-col justify-between items-start border-b border-gray-300 pb-2">
                                                                              <div className="w-full">
                                                                                     <div className="w-full flex flex-wrap items-center justify-between">
-                                                                                           <h1 className="text-2xl font-TextFontMedium text-gray-800">Order <span className='text-mainColor'>#{detailsData?.order_number || ''}</span></h1>
+                                                                                           <h1 className="text-2xl font-TextFontMedium text-gray-800">Order <span className='text-mainColor'>#{detailsData?.id || ''}</span></h1>
                                                                                            <div className="sm:w-full lg:w-6/12 flex items-center justify-center gap-2">
                                                                                                   <Link
                                                                                                          to={`/dashboard/orders/details/${Number(orderNumPath) - 1}`}
