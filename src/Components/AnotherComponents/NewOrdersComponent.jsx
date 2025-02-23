@@ -7,6 +7,7 @@ import { MdOutlineShoppingCart } from 'react-icons/md';
 const NewOrdersComponent = ({ isOpen, onClose }) => {
        const popUpRef = useRef();
        const newOrders = useSelector((state) => state.newOrders);
+
        const navigate = useNavigate();
 
        const handleClickOutside = (event) => {
@@ -37,11 +38,12 @@ const NewOrdersComponent = ({ isOpen, onClose }) => {
                                           {/* Footer */}
                                           <div className="px-4 py-3 mx-auto border-t-4 sm:px-6">
                                                  <Link
-                                                        to="/dashboard/orders/all"
+                                                        // to="/dashboard/orders/all"
+                                                        to={`/dashboard/orders/details/${newOrders?.id}`}
                                                         onClick={(e) => {
                                                                e.preventDefault();
                                                                onClose();
-                                                               navigate('/dashboard/orders/all'); // SPA navigation
+                                                               navigate(`/dashboard/orders/details/${newOrders?.id}`); // Navigate to order details page
                                                         }}
                                                         className="mt-3 inline-flex w-full justify-center rounded-md bg-mainColor px-6 py-3 text-xl font-TextFontMedium text-white shadow-sm sm:mt-0 sm:w-auto focus:outline-none"
                                                  >

@@ -30,6 +30,7 @@ const App = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [orderCounts, setOrderCounts] = useState(0);
+  const [orderId, setOrderId] = useState('');
 
   // Fetch data from the API
   useEffect(() => {
@@ -63,13 +64,14 @@ const App = () => {
     if (response?.data?.new_orders !== undefined) {
       console.log('Response received:', response);
       setOrderCounts(response.data.new_orders);
+      setOrderId(response.data.order_id)
     }
   }, [response]);
 
   // Update `newOrders` in Redux store and play sound
   useEffect(() => {
     if (orderCounts > 0) {
-      dispatch(setNewOrders({ count: orderCounts }));
+      dispatch(setNewOrders({ count: orderCounts, id: orderId }));
 
       if (soundNotification && soundNotification.data) {
         const audio = new Audio(soundNotification.data); // Create a new Audio object
