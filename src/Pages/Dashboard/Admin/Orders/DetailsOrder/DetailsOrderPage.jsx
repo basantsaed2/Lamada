@@ -685,20 +685,30 @@ const DetailsOrderPage = () => {
             {/* Variations Column: Name and Type */}
             <td className="px-2 py-1 whitespace-normal">
               {order.variations && order.variations.length > 0 ? (
-                order.variations.map((variation, varIndex) => (
-                  <div key={`variation-${varIndex}`} className="mb-3">
-                    <div className="font-semibold text-gray-800">
-                      {variation.variation.name}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Type: {variation.variation.type}
-                    </div>
-                  </div>
-                ))
+              order.variations.map((variation, varIndex) => (
+              <div key={`variation-${varIndex}`} className="mb-3">
+                     <div className="font-semibold text-gray-800">
+                     {variation.variation?.name}
+                     </div>
+                     <div className="text-xs text-gray-500">
+                     Type:{" "}
+                     {variation.options && variation.options.length > 0 ? (
+                     variation.options.map((option, optIndex) => (
+                            <span key={`option-${optIndex}`} className="mr-1">
+                            {option.name}
+                            {optIndex < variation.options.length - 1 ? ", " : ""}
+                            </span>
+                     ))
+                     ) : (
+                     <span>-</span>
+                     )}
+                     </div>
+              </div>
+              ))
               ) : (
-                <span className="text-gray-500">-</span>
+              <span className="text-gray-500">-</span>
               )}
-            </td>
+              </td>
           </tr>
         </tbody>
       </table>

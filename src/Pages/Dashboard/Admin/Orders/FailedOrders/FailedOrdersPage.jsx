@@ -4,8 +4,12 @@ import { LoaderLogin, SearchBar } from '../../../../../Components/Components';
 import { BiSolidShow } from 'react-icons/bi';
 import { FaFileInvoice } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { FaCopy } from "react-icons/fa";
+import { useAuth } from "../../../../../Context/Auth"; // Make sure to import useAuth if required
 
 const FailedOrdersPage = () => {
+    const auth = useAuth();
+  
   const ordersFailed = useSelector((state) => state.ordersFailed);
   const [textSearch, setTextSearch] = useState('');
   const [filteredOrders, setFilteredOrders] = useState([]);
@@ -61,6 +65,16 @@ const FailedOrdersPage = () => {
     }
 
   };
+
+  const handleCopy = (phone) => {
+    if (!phone) return;
+
+    navigator.clipboard.writeText(phone)
+      .then(() => {
+        auth.toastSuccess("Phone number copied!"); // Use auth.toastSuccess()
+      })
+      .catch(err => console.error("Failed to copy:", err));
+  };
   const headers = [
     'SL',
     'Order ID',
@@ -89,8 +103,9 @@ const FailedOrdersPage = () => {
             <LoaderLogin />
           ) : (
             <div className='w-full flex flex-col'>
-              <table className="w-full sm:min-w-0 block overflow-x-scroll scrollPage border-collapse">
-                {/* Table Header */}
+              <div className="w-full sm:min-w-0 block overflow-x-scroll scrollPage border-collapse">
+                <table className="w-full sm:min-w-0">
+                  {/* Table Header */}
                 <thead>
                   <tr className="border-b-2">
                     {headers.map((name, index) => (
@@ -148,11 +163,18 @@ const FailedOrdersPage = () => {
                         </td>
 
                         {/* User Information */}
-                        <td className="px-4 py-2 text-center text-thirdColor text-sm lg:text-base">
-                          <div>{`${order.user?.f_name || 'N/A'} ${order.user?.l_name || '-'
-                            }`}</div>
-                          <div>{order.user?.phone || 'No Phone'}</div>
-                        </td>
+                          <td className="px-4 py-2 text-center text-thirdColor text-sm lg:text-base">
+                                  <div>{`${order.user?.f_name || 'N/A'} ${order.user?.l_name || '-'}`}</div>
+                                  <div className="flex items-center justify-center gap-2">
+                                  <span>{order.user?.phone || 'No Phone'}</span>
+                                  {order.user?.phone && (
+                                  <FaCopy 
+                                  className="cursor-pointer text-mainColor hover:text-gray-700 transition duration-200"
+                                  onClick={() => handleCopy(order.user?.phone)}
+                                  />
+                                  )}
+                                  </div>
+                          </td>   
 
                         {/* Branch */}
                         <td className="px-4 py-2 text-center text-sm lg:text-base">
@@ -219,7 +241,8 @@ const FailedOrdersPage = () => {
                     ))
                   )}
                 </tbody>
-              </table>
+                </table>
+              </div>
               {filteredOrders.length > 0 && (
                 <div className="my-6 flex flex-wrap items-center justify-center gap-x-4">
                   {currentPage !== 1 && (
