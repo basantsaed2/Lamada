@@ -33,8 +33,14 @@ const BusinessSettingsPage = () => {
   const [maintenanceMode, setMaintenanceMode] = useState(0);
   const [companyName, setCompanyName] = useState("");
   const [companyPhone, setCompanyPhone] = useState("");
+  const [companyAlternativePhone, setCompanyAlternativePhone] = useState("");
+  const [companyWhatsapp, setCompanyWhatsapp] = useState("");
   const [companyEmail, setCompanyEmail] = useState("");
   const [companyAddress, setCompanyAddress] = useState("");
+
+  const [androidLink, setAndroidLink] = useState("");
+  const [iosLink, setIosLink] = useState("");
+  const [orderActive, setOrderAcive] = useState(0);
 
   const [logo, setLogo] = useState("");
   const [logoFile, setLogoFile] = useState(null);
@@ -189,17 +195,24 @@ const BusinessSettingsPage = () => {
 
   useEffect(() => {
     if (dataCompany) {
+       console.log("data Company ",dataCompany );
 
       // setDataCurrency(dataCompany?.currency || []);
       // setDataCompanyInfo(dataCompany?.company_info || []);
       setCompanyName(dataCompany?.company_info?.name || '');
       setCompanyPhone(dataCompany?.company_info?.phone || '');
+      setCompanyAlternativePhone(dataCompany?.company_info?.phone2 || '');
+      setCompanyWhatsapp(dataCompany?.company_info?.watts || '');
       setCompanyEmail(dataCompany?.company_info?.email || '');
       setCompanyAddress(dataCompany?.company_info?.address || '');
       setIcon(dataCompany?.company_info?.fav_icon_link || '');
       setLogo(dataCompany?.company_info?.logo_link || '');
       setStateCountries(dataCompany?.company_info?.country || stateCountries);
       setSelectedCountry(dataCompany?.company_info?.country || selectedCountry)
+
+      setAndroidLink(dataCompany?.company_info?.android_link || '')
+      setIosLink(dataCompany?.company_info?.ios_link || '')
+      setOrderAcive(dataCompany?.company_info?.order_online || 0)
 
       setStateTimeZone(dataCompany?.company_info?.time_zone || '');
       setSelectedTimeZone({ name: dataCompany?.company_info?.time_zone || '' });
@@ -370,7 +383,12 @@ const BusinessSettingsPage = () => {
       }
     }
 
-
+    // if(androidLink){
+    //   auth.toastError("Please enter android link");
+    // }
+    // if(iosLink){
+    //   auth.toastError("Please enter ios link");
+    // }
 
     const updatedData = {
       status: maintenanceMode,
@@ -389,11 +407,6 @@ const BusinessSettingsPage = () => {
       updatedData.start_date = startDate;
       updatedData.end_date = endDate;
     }
-
-
-
-
-
 
     // const updatedData = [
     //   ["status", maintenanceMode],
@@ -429,9 +442,15 @@ const BusinessSettingsPage = () => {
 
     formData.append("name", companyName);
     formData.append("phone", companyPhone);
+    formData.append("phone2", companyAlternativePhone);
+    formData.append("watts", companyWhatsapp);
     formData.append("email", companyEmail);
     formData.append("address", companyAddress);
     formData.append("address", companyAddress);
+
+    formData.append("android_link", androidLink);
+    formData.append("ios_link", iosLink);
+    formData.append("order_online", orderActive || 0);
 
     formData.append("logo", logo);
     formData.append("fav_icon", icon);
@@ -543,6 +562,10 @@ const BusinessSettingsPage = () => {
   const handleClickDeliverymanApp = (e) => {
     const isChecked = e.target.checked;
     setDeliverymanApp(isChecked ? 1 : 0);
+  };
+  const handleClickOrderActive= (e) => {
+    const isChecked = e.target.checked;
+    setOrderAcive(isChecked ? 1 : 0);
   };
 
   const handleClickMaintenanceMode = (e) => {
@@ -669,6 +692,8 @@ const BusinessSettingsPage = () => {
   const handleReset = () => {
     setCompanyName("");
     setCompanyPhone("");
+    setCompanyAlternativePhone("")
+    setCompanyWhatsapp("")
     setCompanyEmail("");
     setCompanyAddress("");
     setLogoFile("");
@@ -755,6 +780,28 @@ const BusinessSettingsPage = () => {
               placeholder="Company Phone"
             />
           </div>
+          {/* Company Alternative Phone */}
+          <div className="sm:w-full lg:w-[30%] flex flex-col items-start justify-center gap-y-1">
+            <span className="text-xl font-TextFontRegular text-thirdColor">
+              Company Alternative Phone:
+            </span>
+            <NumberInput
+              value={companyAlternativePhone}
+              onChange={(e) => setCompanyAlternativePhone(e.target.value)}
+              placeholder="Company Alternative Phone"
+            />
+          </div>
+          {/* Company WhatsApp Phone */}
+          <div className="sm:w-full lg:w-[30%] flex flex-col items-start justify-center gap-y-1">
+            <span className="text-xl font-TextFontRegular text-thirdColor">
+              Company WhatsApp Phone:
+            </span>
+            <NumberInput
+              value={companyWhatsapp}
+              onChange={(e) => setCompanyWhatsapp(e.target.value)}
+              placeholder="Company WhatsApp Phone"
+            />
+          </div>
           {/* Company Email */}
           <div className="sm:w-full lg:w-[30%] flex flex-col items-start justify-center gap-y-1">
             <span className="text-xl font-TextFontRegular text-thirdColor">
@@ -802,6 +849,38 @@ const BusinessSettingsPage = () => {
               onClick={() => handleIconClick(IconRef)}
             />
           </div>
+          {/* Company Android Link */}
+          <div className="sm:w-full lg:w-[30%] flex flex-col items-start justify-center gap-y-1">
+            <span className="text-xl font-TextFontRegular text-thirdColor">
+             App Android Link:
+            </span>
+            <TextInput
+              value={androidLink}
+              onChange={(e) => setAndroidLink(e.target.value)}
+              placeholder="App Android Link"
+            />
+          </div>
+          {/* Company Ios Link */}
+          <div className="sm:w-full lg:w-[30%] flex flex-col items-start justify-center gap-y-1">
+            <span className="text-xl font-TextFontRegular text-thirdColor">
+               App IOS Link:
+            </span>
+            <TextInput
+              value={iosLink}
+              onChange={(e) => setIosLink(e.target.value)}
+              placeholder="App IOS Link"
+            />
+          </div>
+
+          <div className="sm:w-full lg:w-[30%] flex flex-col items-start justify-center gap-y-1">
+            <span className="text-xl font-TextFontRegular text-thirdColor">Order Active:</span>
+              <div>
+                <Switch
+                  checked={orderActive}
+                  handleClick={handleClickOrderActive}
+                />
+              </div>
+            </div>
 
           <TitleSection text={"Business Information"} />
 

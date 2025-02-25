@@ -61,7 +61,8 @@ import {
   EditRoleLayout,
   RolesLayout,
   AdminsLayout,
-  EditAdminLayout
+  EditAdminLayout,
+  MenuLayout,
 } from "./layouts/Layouts";
 import ProtectedLogin from "./ProtectedData/ProtectedLogin";
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
@@ -207,6 +208,20 @@ export const router = createBrowserRouter([
                         path: 'edit/:paymentMethodId',
                         element: <EditPaymentMethodLayout />
                       }
+                    ]
+                  },
+                ]
+              },
+              {
+                path: 'menu',
+                children: [
+                  {
+                    path: '',
+                    children: [
+                      {
+                        index: true,
+                        element: <MenuLayout />,
+                      },
                     ]
                   },
                 ]

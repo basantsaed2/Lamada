@@ -52,6 +52,8 @@ export { default as ResturantTimeLayout } from "./Dashboard/Setting/ResturantTim
 export { default as CancelTimeLayout } from "./Dashboard/Setting/CancelTime/CancelTimeLayout";
 // Setting -> Delivery Time
 export { default as DeliveryTimeLayout } from "./Dashboard/Setting/DeliveryTime/DeliveryTimeLayout";
+// Setting -> Menu
+export { default as MenuLayout } from "./Dashboard/Setting/Menu/MenuLayout";
 
 /*  Taxes */
 // Taxes -> Taxes

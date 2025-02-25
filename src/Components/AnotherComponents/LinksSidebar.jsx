@@ -97,6 +97,8 @@ const LinksSidebar = () => {
        const [isActiveAutomaticPayment, setIsActiveAutomaticPayment] = useState(false);
        /* Sound */
        const [isActiveSound, setIsActiveSound] = useState(false);
+       /* Menu */
+       const [isActiveMenu, setIsActiveMenu] = useState(false);
 
        /* Taxes */
        const [isOpenTaxes, setIsOpenTaxes] = useState(false);
@@ -201,6 +203,7 @@ const LinksSidebar = () => {
               setIsActiveCancelTime(false)
               setIsActiveDeliveryTime(false)
               setIsActiveSound(false)
+              setIsActiveMenu(false)
 
               setIsActiveOrdersPayment(false)
               setIsActiveOrdersPaymentIcon(false)
@@ -394,7 +397,8 @@ const LinksSidebar = () => {
                             "/dashboard/setting/cancel_time",
                             "/dashboard/setting/delivery_time",
                             "/dashboard/setting/automatic_payment",
-                            "/dashboard/setting/sound"
+                            "/dashboard/setting/sound",
+                            "/dashboard/setting/menu"
                      ].some(path => pathName.startsWith(path))
               ) {
                      handleClickSetting();
@@ -550,6 +554,20 @@ const LinksSidebar = () => {
               const result = part.slice(0, 4).join('/');
               if (result == "/dashboard/setting/delivery_time") {
                      handleClickDeliveryTime()
+              }
+       }, [location])
+       /* Menu */
+       const handleClickMenu = useCallback(() => {
+              handleStateLinks()
+              setIsOpenSetting(true);
+              setIsActiveSetting(true);
+              setIsActiveMenu(true);
+       }, []);
+       useEffect(() => {
+              const part = pathName.split('/');
+              const result = part.slice(0, 4).join('/');
+              if (result == "/dashboard/setting/menu") {
+                     handleClickMenu()
               }
        }, [location])
 
@@ -1584,6 +1602,14 @@ const LinksSidebar = () => {
                                                  text-xl font-TextFontLight rounded-xl px-4 py-1  hover:bg-white transition-all duration-300 hover:text-mainColor`
                                                                       }>
                                                                       Sound
+                                                               </li>
+                                                        </Link>
+                                                        <Link to={"setting/menu"} onClick={handleClickMenu}>
+                                                               <li
+                                                                      className={`${isActiveMenu ? 'rounded-xl bg-white text-mainColor' : 'text-white'}
+                                                 text-xl font-TextFontLight rounded-xl px-4 py-1  hover:bg-white transition-all duration-300 hover:text-mainColor`
+                                                                      }>
+                                                                      Menu
                                                                </li>
                                                         </Link>
                                                  </ul>
