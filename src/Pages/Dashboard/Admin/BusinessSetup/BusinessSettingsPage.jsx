@@ -41,6 +41,8 @@ const BusinessSettingsPage = () => {
   const [androidLink, setAndroidLink] = useState("");
   const [iosLink, setIosLink] = useState("");
   const [orderActive, setOrderAcive] = useState(0);
+  const [androidActive, setAndroidActive] = useState(0);
+  const [iosActive, setIOSAcive] = useState(0);
 
   const [logo, setLogo] = useState("");
   const [logoFile, setLogoFile] = useState(null);
@@ -213,6 +215,8 @@ const BusinessSettingsPage = () => {
       setAndroidLink(dataCompany?.company_info?.android_link || '')
       setIosLink(dataCompany?.company_info?.ios_link || '')
       setOrderAcive(dataCompany?.company_info?.order_online || 0)
+      setAndroidActive(dataCompany?.company_info?.android_switch || 0)
+      setIOSAcive(dataCompany?.company_info?.ios_switch || 0)
 
       setStateTimeZone(dataCompany?.company_info?.time_zone || '');
       setSelectedTimeZone({ name: dataCompany?.company_info?.time_zone || '' });
@@ -451,6 +455,8 @@ const BusinessSettingsPage = () => {
     formData.append("android_link", androidLink);
     formData.append("ios_link", iosLink);
     formData.append("order_online", orderActive || 0);
+    formData.append("android_switch", androidActive || 0);
+    formData.append("ios_switch", iosActive || 0);
 
     formData.append("logo", logo);
     formData.append("fav_icon", icon);
@@ -566,6 +572,14 @@ const BusinessSettingsPage = () => {
   const handleClickOrderActive= (e) => {
     const isChecked = e.target.checked;
     setOrderAcive(isChecked ? 1 : 0);
+  };
+  const handleClickAndroidActive= (e) => {
+    const isChecked = e.target.checked;
+    setAndroidActive(isChecked ? 1 : 0);
+  };
+  const handleClickIOSActive= (e) => {
+    const isChecked = e.target.checked;
+    setIOSAcive(isChecked ? 1 : 0);
   };
 
   const handleClickMaintenanceMode = (e) => {
@@ -872,12 +886,32 @@ const BusinessSettingsPage = () => {
             />
           </div>
 
-          <div className="sm:w-full lg:w-[30%] flex flex-col items-start justify-center gap-y-1">
-            <span className="text-xl font-TextFontRegular text-thirdColor">Order Active:</span>
+          <div className="sm:w-full lg:w-[30%] flex items-center gap-2 mt-8 justify-center gap-y-1">
+            <span className="text-xl font-TextFontRegular text-thirdColor">Order Active : </span>
               <div>
                 <Switch
                   checked={orderActive}
                   handleClick={handleClickOrderActive}
+                />
+              </div>
+            </div>
+
+            <div className="sm:w-full lg:w-[30%] flex items-center gap-2 mt-8 justify-center gap-y-1">
+            <span className="text-xl font-TextFontRegular text-thirdColor">Android  Active : </span>
+              <div>
+                <Switch
+                  checked={androidActive}
+                  handleClick={handleClickAndroidActive}
+                />
+              </div>
+            </div>
+
+            <div className="sm:w-full lg:w-[30%] flex items-center gap-2 mt-8 justify-center gap-y-1">
+            <span className="text-xl font-TextFontRegular text-thirdColor">IOS  Active : </span>
+              <div>
+                <Switch
+                  checked={iosActive}
+                  handleClick={handleClickIOSActive}
                 />
               </div>
             </div>
