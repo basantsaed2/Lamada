@@ -32,21 +32,53 @@ export const usePost = ({ url, login = false, type = false }) => {
                             { name ? auth.toastSuccess(name) : '' }
                             // auth.toastSuccess(name)
                      }
-              } catch (error) {
-                     if (error.response?.data?.errors) {
-                            Object.entries(error.response.data.errors).forEach(([messages]) => {
-                                   // Show a toast for each error message
-                                   messages.forEach((message) => {
-                                          auth.toastError(`${message}`);
-                                   });
-                            });
+              } 
+              // catch (error) {
+              //        if (error.response?.data?.errors) {
+              //               Object.entries(error.response.data.errors).forEach(([messages]) => {
+              //                      // Show a toast for each error message
+              //                      messages.forEach((message) => {
+              //                             auth.toastError(`${message}`);
+              //                      });
+              //               });
+              //        } else {
+              //               auth.toastError(error.message);
+              //        }
+
+              //        console.error('Error posting JSON:', error);
+
+              // }
+              catch (error) {
+                     console.error('Error post JSON:', error);
+                   
+                     // Check if the error response contains 'errors' or just a message
+                     if (error?.response?.data?.errors) {
+                       // Check if errors are an object (field-based errors)
+                       if (typeof error.response.data.errors === 'object') {
+                         Object.entries(error.response.data.errors).forEach(([field, messages]) => {
+                           // If messages is an array, loop through them
+                           if (Array.isArray(messages)) {
+                             messages.forEach(message => {
+                               auth.toastError(message); // Display the error messages
+                             });
+                           } else {
+                             // If it's not an array, display the message directly
+                             auth.toastError(messages);
+                           }
+                         });
+                       } else {
+                         // If errors is not an object, assume it's just a message
+                         auth.toastError(error.response.data.errors);
+                       }
+                     } else if (error?.response?.data?.message) {
+                       // If there's a general message outside of the 'errors' object
+                       auth.toastError(error.response.data.message); // Display the general error message
                      } else {
-                            auth.toastError(error.message);
+                       // If no specific error messages are found, just display a fallback message
+                       auth.toastError('An unknown error occurred.');
                      }
-
-                     console.error('Error posting JSON:', error);
-
-              } finally {
+                   }
+               finally {
                      setLoadingPost(false);
               }
        };

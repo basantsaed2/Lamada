@@ -6,13 +6,18 @@ import { useDelete } from '../../../../Hooks/useDelete';
 import { Link } from 'react-router-dom';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import Warning from '../../../../Assets/Icons/AnotherIcons/WarningIcon';
+import * as XLSX from 'xlsx';
+import { usePost } from '../../../../Hooks/usePostJson';
+import { FaUpload, FaDownload } from 'react-icons/fa';
 
 const ProductPage = () => {
        const apiUrl = import.meta.env.VITE_API_BASE_URL;
        const { refetch: refetchProducts, loading: loadingProducts, data: dataProducts } = useGet({
               url: `${apiUrl}/admin/product`
        });
+       const { postData, loadingPost, response } = usePost({ url: `${apiUrl}/admin/product/import_excel` });
        const { deleteData, loadingDelete, responseDelete } = useDelete();
+       const [selectedFile, setSelectedFile] = useState(null);
 
        const [products, setProducts] = useState([])
        const [textSearch, setTextSearch] = useState('');
@@ -47,6 +52,14 @@ const ProductPage = () => {
               console.log('dataProducts', dataProducts)
               console.log('products', products)
        }, [dataProducts])
+
+       
+         useEffect(() => {
+           if (response && response.status === 200 && !loadingPost) {
+              setSelectedFile(null);
+           }
+         }, [response]);
+       
 
        const handleFilterData = (e) => {
               const text = e.target.value;
@@ -135,7 +148,136 @@ const ProductPage = () => {
               }
               console.log('products', products)
        };
-
+       // Function to flatten product data and export to Excel
+       const exportProductsToExcel = () => {
+              // Filter products based on:
+              // - At most 2 variations.
+              // - Each variation must have at most 3 options.
+              // - If extra or excludes arrays exist, their lengths must be <= 5.
+              const filteredProducts = products.filter(product => {
+                const variations = product.variations || [];
+                if (variations.length > 2) return false;
+                for (const variation of variations) {
+                  const options = variation.options || [];
+                  if (options.length > 3) return false;
+                }
+                if (product.extra && product.extra.length > 5) return false;
+                if (product.excludes && product.excludes.length > 5) return false;
+                return true;
+              });
+          
+              // Map each product to a flat object with base fields and variation data only.
+              const data = filteredProducts.map(product => {
+                const row = {
+                     id: product.id,
+                     name: product.name,
+                     description:product.description,
+                     item_type: product.item_type,
+                     stock_type: product.stock_type,
+                     number: product.number,
+                     price: product.price || 0,
+                     product_time_status: product.product_time_status,
+                     from: product.from,
+                     to: product.to,
+                     points: product.points || 0,
+                };
+          
+                // Process Variation 1 (if available)
+                if (product.variations && product.variations.length > 0) {
+                  const var1 = product.variations[0] || {};
+                  row['variations1_id'] = var1.id || '';
+                  row['variations1_name'] = var1.name || '';
+                  row['variations1_type'] = var1.type || '';
+                  row['variations1_min'] = var1.min || '';
+                  row['variations1_max'] = var1.max || '';
+                  row['variations1_required'] = var1.required || '';
+          
+                  if (var1.options && var1.options.length > 0) {
+                    const option1 = var1.options[0] || {};
+                    row['variations1_option1_id'] = option1.id || '';
+                    row['variations1_option1_name'] = option1.name || '';
+                    row['variations1_option1_price'] = option1.price || 0;
+                    row['variations1_option1_status'] = option1.status || '';
+                    row['variations1_option1_points'] = option1.points || 0;
+          
+                    const option2 = var1.options[1] || {};
+                    row['variations1_option2_id'] = option2.id || '';
+                    row['variations1_option2_name'] = option2.name || '';
+                    row['variations1_option2_price'] = option2.price || 0;
+                    row['variations1_option2_status'] = option2.status || '';
+                    row['variations1_option2_points'] = option2.points || 0;
+          
+                    const option3 = var1.options[2] || {};
+                    row['variations1_option3_id'] = option3.id || '';
+                    row['variations1_option3_name'] = option3.name || '';
+                    row['variations1_option3_price'] = option3.price || 0;
+                    row['variations1_option3_status'] = option3.status || '';
+                    row['variations1_option3_points'] = option3.points || 0;
+                  }
+                }
+          
+                // Process Variation 2 (if available)
+                if (product.variations && product.variations.length > 1) {
+                  const var2 = product.variations[1] || {};
+                  row['variations2_id'] = var2.id || '';
+                  row['variations2_name'] = var2.name || '';
+                  row['variations2_type'] = var2.type || '';
+                  row['variations2_min'] = var2.min || '';
+                  row['variations2_max'] = var2.max || '';
+                  row['variations2_required'] = var2.required || '';
+          
+                  if (var2.options && var2.options.length > 0) {
+                    const option1 = var2.options[0] || {};
+                    row['variations2_option1_id'] = option1.id || '';
+                    row['variations2_option1_name'] = option1.name || '';
+                    row['variations2_option1_price'] = option1.price || 0;
+                    row['variations2_option1_status'] = option1.status || '';
+                    row['variations2_option1_points'] = option1.points || 0;
+          
+                    const option2 = var2.options[1] || {};
+                    row['variations2_option2_id'] = option2.id || '';
+                    row['variations2_option2_name'] = option2.name || '';
+                    row['variations2_option2_price'] = option2.price || 0;
+                    row['variations2_option2_status'] = option2.status || '';
+                    row['variations2_option2_points'] = option2.points || 0;
+          
+                    const option3 = var2.options[2] || {};
+                    row['variations2_option3_id'] = option3.id || '';
+                    row['variations2_option3_name'] = option3.name || '';
+                    row['variations2_option3_price'] = option3.price || 0;
+                    row['variations2_option3_status'] = option3.status || '';
+                    row['variations2_option3_points'] = option3.points || 0;
+                  }
+                }
+          
+                return row;
+              });
+          
+              // Create worksheet from the data
+              const worksheet = XLSX.utils.json_to_sheet(data);
+              const workbook = XLSX.utils.book_new();
+              XLSX.utils.book_append_sheet(workbook, worksheet, 'Products');             
+          
+              XLSX.writeFile(workbook, 'products.xlsx');
+       };
+       // When a file is selected, store it in state.
+       const handleFileUpload = (e) => {
+              const file = e.target.files[0];
+              if (file) {
+              setSelectedFile(file);
+              }
+       };
+       
+       // Submit the file via your API.
+       const handleSubmitFile = () => {
+              if (selectedFile) {
+              const formData = new FormData();
+              formData.append("file", selectedFile);
+              // postFile is assumed to be your function for posting file data.
+              postData(formData,"File Uploaded Success");
+              }
+       };
+       
        const headers = [
               '#',
               'Name',
@@ -161,16 +303,47 @@ const ProductPage = () => {
        return (
               <>
                      <div className="w-full pb-28 flex items-start justify-start">
-                            {loadingProducts || loadingDelete ? (
+                            {loadingProducts || loadingDelete || loadingPost ? (
                                    <><LoaderLogin /></>
                             ) : (
                                    <div className='w-full flex flex-col'>
-                                          <div className="sm:w-full lg:w-[70%] xl:w-[30%] mb-4">
+                                          <div className='w-full flex flex-col md:flex-row justify-between mb-5 gap-3'>
+                                                 <div className="sm:w-full md:w-[30%]">
                                                  <SearchBar
                                                         placeholder='Search by Product Name'
                                                         value={textSearch}
                                                         handleChange={handleFilterData}
                                                  />
+                                                 </div>
+                                                 <div className="flex flex-col md:flex-row gap-3">
+                                                         {/* Download Button */}
+                                                        <button
+                                                               className="bg-mainColor text-white font-semibold py-2 px-6 rounded flex items-center gap-2"
+                                                               onClick={exportProductsToExcel}
+                                                        >
+                                                               <FaDownload size={16} />
+                                                               Download Excel
+                                                        </button>
+                                                        {/* Upload Button */}
+                                                        <label className="cursor-pointer text-center inline-block bg-mainColor text-white font-semibold py-2 px-4 rounded flex items-center gap-2">
+                                                               <FaUpload size={16} />
+                                                               {selectedFile ? selectedFile.name : "Upload"}
+                                                               <input
+                                                               type="file"
+                                                               className="hidden"
+                                                               onChange={handleFileUpload}
+                                                               />
+                                                        </label>
+                                                        {/* Show Submit Button only if a file is selected */}
+                                                        {selectedFile && (
+                                                               <button
+                                                               className="bg-white text-mainColor border border-mainColor font-semibold py-2 px-2 rounded-2xl flex items-center gap-2 hover:bg-mainColor hover:text-white transition duration-300"
+                                                               onClick={handleSubmitFile}
+                                                        >
+                                                               Submit File
+                                                        </button>      
+                                                        )}
+                                                        </div>
                                           </div>
 
                                           <table className="w-full sm:min-w-0 block overflow-x-scroll scrollPage">

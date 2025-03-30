@@ -758,6 +758,12 @@ const AddProductPage = () => {
     //   return;
     // }
 
+    if (productTimeStatus === 1) {
+      if (!productStatusFrom || !productStatusTo) {
+        auth.toastError("Both 'From' and 'To' fields are required when Product Time Status is enabled.");
+        return; // Stop execution to prevent submitting incomplete data
+      }
+    }    
 
     const formData = new FormData();
     formData.append('category_id', selectedCategoryId)
