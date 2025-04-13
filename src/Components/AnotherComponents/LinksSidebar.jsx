@@ -1033,7 +1033,7 @@ const LinksSidebar = () => {
        return (
               <>
                      {auth?.userState?.user_positions?.name === 'Super Admin' ? (
-                            <div className="LinksSidebar w-full flex flex-col items-center justify-start gap-y-3">
+                            <div className="LinksSidebar pb-52 w-full flex flex-col items-center justify-start gap-y-3">
 
                                    {/* Dashboard */}
                                    <Link to="/dashboard"
@@ -1051,7 +1051,7 @@ const LinksSidebar = () => {
                                                  <HomeIcon isActive={isActiveHomeIcon || isActiveHome} />
                                                  <span className={`${hideSide ? 'block' : 'hidden'} 
                                           ${isActiveHome ? "text-mainColor" : "text-white"}
-                                             text-base font-[400] transition-all duration-300
+                                             text-base font-[300]     transition-all duration-300
                                            group-hover:text-mainColor`}
                                                  >
                                                         Home
@@ -1077,7 +1077,7 @@ const LinksSidebar = () => {
                                                         <span className={`
                                           ${hideSide ? 'block' : 'hidden'}
                                            ${isActiveOrders ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]     transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Orders
@@ -1208,11 +1208,12 @@ const LinksSidebar = () => {
                                    transition-all duration-300 group`}
                                    >
                                           <div className="flex items-center gap-x-2">
+
                                                  <CategoryIcon isActive={isActiveCategoryIcon || isActiveCategory} />
                                                  <span className={`
                                           ${hideSide ? 'block' : 'hidden'}
                                            ${isActiveCategory ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]       transition-all duration-300
                                           group-hover:text-mainColor`}
                                                  >
                                                         Category Setup
@@ -1238,7 +1239,7 @@ const LinksSidebar = () => {
                                                         <span className={`
                                           ${hideSide ? 'block' : 'hidden'}
                                            ${isActiveProductSetup ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]      transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Product Setup
@@ -1289,7 +1290,7 @@ const LinksSidebar = () => {
                                                  <span
                                                         className={`${hideSide ? 'block' : 'hidden'}
                                                   ${isActiveBanners ? "text-mainColor" : "text-white"}
-                                                 text-lg font-[400] transition-all duration-300
+                                                 text-lg font-[300]    transition-all duration-300
                                                  group-hover:text-mainColor`}
                                                  >
                                                         Banners
@@ -1316,7 +1317,7 @@ const LinksSidebar = () => {
                                                  <span
                                                         className={`${hideSide ? 'block' : 'hidden'}
                                                   ${isActiveAddons ? "text-mainColor" : "text-white"}
-                                                 text-lg font-[400] transition-all duration-300
+                                                 text-lg font-[300]    transition-all duration-300
                                                  group-hover:text-mainColor`}
                                                  >
                                                         Addons
@@ -1342,7 +1343,7 @@ const LinksSidebar = () => {
                                                         <span className={`
                                           ${hideSide ? 'block' : 'hidden'}
                                            ${isActiveTaxes ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Taxes
@@ -1396,7 +1397,7 @@ const LinksSidebar = () => {
                                                  <span
                                                         className={`${hideSide ? 'block' : 'hidden'}
                                                   ${isActiveOrdersPayment ? "text-mainColor" : "text-white"}
-                                                 text-lg font-[400] transition-all duration-300
+                                                 text-lg font-[300]    transition-all duration-300
                                                  group-hover:text-mainColor`}
                                                  >
                                                         Orders Payment
@@ -1423,7 +1424,7 @@ const LinksSidebar = () => {
                                                  <span
                                                         className={`${hideSide ? 'block' : 'hidden'}
                                                   ${isActiveDeliveryMan ? "text-mainColor" : "text-white"}
-                                                 text-lg font-[400] transition-all duration-300
+                                                 text-lg font-[300]    transition-all duration-300
                                                  group-hover:text-mainColor`}
                                                  >
                                                         Delivery Man
@@ -1449,7 +1450,7 @@ const LinksSidebar = () => {
                                                         <span className={`
                                           ${hideSide ? 'block' : 'hidden'}
                                            ${isActiveUsers ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Users
@@ -1504,7 +1505,7 @@ const LinksSidebar = () => {
                                                         <span className={`
                                           ${hideSide ? 'block' : 'hidden'}
                                            ${isActiveSetting ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Setting
@@ -1636,7 +1637,7 @@ const LinksSidebar = () => {
                                                  <span
                                                         className={`${hideSide ? 'block' : 'hidden'}
                                                   ${isActiveBusinessSetup ? "text-mainColor" : "text-white"}
-                                                 text-lg font-[400] transition-all duration-300
+                                                 text-lg font-[300]    transition-all duration-300
                                                  group-hover:text-mainColor`}
                                                  >
                                                         Business Setup
@@ -1663,7 +1664,7 @@ const LinksSidebar = () => {
                                                  <span
                                                         className={`${hideSide ? 'block' : 'hidden'}
                                                   ${isActiveDeals ? "text-mainColor" : "text-white"}
-                                                 text-lg font-[400] transition-all duration-300
+                                                 text-lg font-[300]    transition-all duration-300
                                                  group-hover:text-mainColor`}
                                                  >
                                                         Deals
@@ -1690,7 +1691,7 @@ const LinksSidebar = () => {
                                                  <span
                                                         className={`${hideSide ? 'block' : 'hidden'}
                                                   ${isActiveOffers ? "text-mainColor" : "text-white"}
-                                                 text-lg font-[400] transition-all duration-300
+                                                 text-lg font-[300]    transition-all duration-300
                                                  group-hover:text-mainColor`}
                                                  >
                                                         Offers
@@ -1717,7 +1718,7 @@ const LinksSidebar = () => {
                                                  <span
                                                         className={`${hideSide ? 'block' : 'hidden'}
                                                   ${isActiveCoupon ? "text-mainColor" : "text-white"}
-                                                 text-lg font-[400] transition-all duration-300
+                                                 text-lg font-[300]    transition-all duration-300
                                                  group-hover:text-mainColor`}
                                                  >
                                                         Coupon
@@ -1744,7 +1745,7 @@ const LinksSidebar = () => {
                                                  <span
                                                         className={`${hideSide ? 'block' : 'hidden'}
                                                   ${isActiveLanguages ? "text-mainColor" : "text-white"}
-                                                 text-lg font-[400] transition-all duration-300
+                                                 text-lg font-[300]    transition-all duration-300
                                                  group-hover:text-mainColor`}
                                                  >
                                                         Languages
@@ -1771,7 +1772,7 @@ const LinksSidebar = () => {
                                                  <span
                                                         className={`${hideSide ? 'block' : 'hidden'}
                                                   ${isActiveDealOrder ? "text-mainColor" : "text-white"}
-                                                 text-lg font-[400] transition-all duration-300
+                                                 text-lg font-[300]    transition-all duration-300
                                                  group-hover:text-mainColor`}
                                                  >
                                                         Deal Order
@@ -1798,7 +1799,7 @@ const LinksSidebar = () => {
                                                  <span
                                                         className={`${hideSide ? 'block' : 'hidden'}
                                                   ${isActiveBuyOffer ? "text-mainColor" : "text-white"}
-                                                 text-lg font-[400] transition-all duration-300
+                                                 text-lg font-[300]    transition-all duration-300
                                                  group-hover:text-mainColor`}
                                                  >
                                                         Buy Offer
@@ -1825,7 +1826,7 @@ const LinksSidebar = () => {
                                                  <span
                                                         className={`${hideSide ? 'block' : 'hidden'}
                                                   ${isActiveDiscount ? "text-mainColor" : "text-white"}
-                                                 text-lg font-[400] transition-all duration-300
+                                                 text-lg font-[300]    transition-all duration-300
                                                  group-hover:text-mainColor`}
                                                  >
                                                         Discount
@@ -1853,7 +1854,7 @@ const LinksSidebar = () => {
                                                         <HomeIcon isActive={isActiveHomeIcon || isActiveHome} />
                                                         <span className={`${hideSide ? 'block' : 'hidden'} 
                                    ${isActiveHome ? "text-mainColor" : "text-white"}
-                                      text-base font-[400] transition-all duration-300
+                                      text-base font-[300]    transition-all duration-300
                                     group-hover:text-mainColor`}
                                                         >
                                                                Home
@@ -1882,7 +1883,7 @@ const LinksSidebar = () => {
                                                                       <span className={`
                                    ${hideSide ? 'block' : 'hidden'}
                                     ${isActiveOrders ? "text-mainColor" : "text-white"}
-                                   text-lg font-[400] transition-all duration-300
+                                   text-lg font-[300]    transition-all duration-300
                                    group-hover:text-mainColor`}
                                                                       >
                                                                              Orders
@@ -2020,7 +2021,7 @@ const LinksSidebar = () => {
                                                         <span className={`
                                    ${hideSide ? 'block' : 'hidden'}
                                     ${isActiveCategory ? "text-mainColor" : "text-white"}
-                                   text-lg font-[400] transition-all duration-300
+                                   text-lg font-[300]    transition-all duration-300
                                    group-hover:text-mainColor`}
                                                         >
                                                                Category Setup
@@ -2051,7 +2052,7 @@ const LinksSidebar = () => {
                                                                       <span className={`
                                    ${hideSide ? 'block' : 'hidden'}
                                     ${isActiveProductSetup ? "text-mainColor" : "text-white"}
-                                   text-lg font-[400] transition-all duration-300
+                                   text-lg font-[300]    transition-all duration-300
                                    group-hover:text-mainColor`}
                                                                       >
                                                                              Product Setup
@@ -2105,7 +2106,7 @@ const LinksSidebar = () => {
                                                         <span
                                                                className={`${hideSide ? 'block' : 'hidden'}
                                            ${isActiveBanners ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Banners
@@ -2134,7 +2135,7 @@ const LinksSidebar = () => {
                                                         <span
                                                                className={`${hideSide ? 'block' : 'hidden'}
                                            ${isActiveAddons ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Addons
@@ -2164,7 +2165,7 @@ const LinksSidebar = () => {
                                                                       <span className={`
                                    ${hideSide ? 'block' : 'hidden'}
                                     ${isActiveTaxes ? "text-mainColor" : "text-white"}
-                                   text-lg font-[400] transition-all duration-300
+                                   text-lg font-[300]    transition-all duration-300
                                    group-hover:text-mainColor`}
                                                                       >
                                                                              Taxes
@@ -2221,7 +2222,7 @@ const LinksSidebar = () => {
                                                         <span
                                                                className={`${hideSide ? 'block' : 'hidden'}
                                            ${isActiveOrdersPayment ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Orders Payment
@@ -2250,7 +2251,7 @@ const LinksSidebar = () => {
                                                         <span
                                                                className={`${hideSide ? 'block' : 'hidden'}
                                            ${isActiveDeliveryMan ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Delivery Man
@@ -2277,7 +2278,7 @@ const LinksSidebar = () => {
                                                         <span className={`
                                    ${hideSide ? 'block' : 'hidden'}
                                     ${isActiveUsers ? "text-mainColor" : "text-white"}
-                                   text-lg font-[400] transition-all duration-300
+                                   text-lg font-[300]    transition-all duration-300
                                    group-hover:text-mainColor`}
                                                         >
                                                                Users
@@ -2341,7 +2342,7 @@ const LinksSidebar = () => {
                                                                       <span className={`
                                    ${hideSide ? 'block' : 'hidden'}
                                     ${isActiveSetting ? "text-mainColor" : "text-white"}
-                                   text-lg font-[400] transition-all duration-300
+                                   text-lg font-[300]    transition-all duration-300
                                    group-hover:text-mainColor`}
                                                                       >
                                                                              Setting
@@ -2468,7 +2469,7 @@ const LinksSidebar = () => {
                                                         <span
                                                                className={`${hideSide ? 'block' : 'hidden'}
                                            ${isActiveBusinessSetup ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Business Setup
@@ -2497,7 +2498,7 @@ const LinksSidebar = () => {
                                                         <span
                                                                className={`${hideSide ? 'block' : 'hidden'}
                                            ${isActiveDeals ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Deals
@@ -2526,7 +2527,7 @@ const LinksSidebar = () => {
                                                         <span
                                                                className={`${hideSide ? 'block' : 'hidden'}
                                            ${isActiveOffers ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Offers
@@ -2555,7 +2556,7 @@ const LinksSidebar = () => {
                                                         <span
                                                                className={`${hideSide ? 'block' : 'hidden'}
                                            ${isActiveCoupon ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Coupon
@@ -2584,7 +2585,7 @@ const LinksSidebar = () => {
                                                         <span
                                                                className={`${hideSide ? 'block' : 'hidden'}
                                            ${isActiveLanguages ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Languages
@@ -2613,7 +2614,7 @@ const LinksSidebar = () => {
                                                         <span
                                                                className={`${hideSide ? 'block' : 'hidden'}
                                            ${isActiveDealOrder ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Deal Order
@@ -2642,7 +2643,7 @@ const LinksSidebar = () => {
                                                         <span
                                                                className={`${hideSide ? 'block' : 'hidden'}
                                            ${isActiveBuyOffer ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]    transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Buy Offer
@@ -2671,7 +2672,7 @@ const LinksSidebar = () => {
                                                         <span
                                                                className={`${hideSide ? 'block' : 'hidden'}
                                            ${isActiveDiscount ? "text-mainColor" : "text-white"}
-                                          text-lg font-[400] transition-all duration-300
+                                          text-lg font-[300]     transition-all duration-300
                                           group-hover:text-mainColor`}
                                                         >
                                                                Discount
